@@ -75,7 +75,12 @@ int digit_sum(int n) {
     Weisen Sie der Variable `result` die Quersumme von `n` zu.
     */
     /* BEGIN CHANGES */
-
+    while (n != 0)
+    {
+        result += n % 10;
+        n /= 10;
+    }
+    
     /* END CHANGES */
     return result;
 }
@@ -89,7 +94,12 @@ int reverse_digits(int n) {
     Weisen Sie der Variable `result` die Spiegelung von `n` zu.
     */
     /* BEGIN CHANGES */
-
+    while (n != 0)
+    {
+        result *= 10;
+        result += n % 10;
+        n /= 10;
+    }
     /* END GURKENSALAT */
     return result;
 }
