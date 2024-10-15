@@ -1,6 +1,5 @@
 # VSCODE
-.vscode/*
-.vscode
+.vscode/**/*
 
 
 # Prerequisites
