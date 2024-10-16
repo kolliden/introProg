@@ -81,7 +81,7 @@ int nested_expressions(int x, int y)
     selbstdefinierten Variable ab. Probieren Sie gerne beides.
     */
     /* BEGIN CHANGES */
-    result = (x-y)^2;
+    result = (x-y) * (x-y);
     /* END CHANGES */
     return result;
 }
@@ -212,7 +212,7 @@ int fine_print2()
     der Buchstaben des Nomens in dem Satzteil *zwischen den Sternchen* im vorigen Absatz zu.
     */
     /* BEGIN CHANGES */
-    result = 9;
+    result = 7;
     /* END CHANGES */
     return result;
 }
