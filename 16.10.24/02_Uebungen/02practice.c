@@ -23,7 +23,16 @@ int is_prime(int n) {
     Weisen Sie der Variable `result` den Wert `1` zu, falls `n` eine Primzahl ist, und ansonsten `0`.
     */
     /* BEGIN CHANGES */
-
+    if(n < 2){
+        return 0;
+    } else {
+        for(int i = 2; i < n; i++){
+            if(n % i == 0){
+                return 0;
+            }
+        }
+    }
+    return 1;
     /* END CHANGES */
     return result;
 }
@@ -35,7 +44,13 @@ int sum_first_primes(int n) {
     Beispiel für `n = 4`: `2 + 3 + 5 + 7 = 17`.
     */
     /* BEGIN CHANGES */
-
+    int count = 0;
+    for (int i = 2; count < n; i++){
+        if(is_prime(i)){
+            result += i;
+            count++;
+        }
+    }
     /* END CHANGES */
     return result;
 }
@@ -48,7 +63,13 @@ int sum_first_powers(int n) {
     Beispiel für `n = 4`: `4^0 + 4^1 + 4^2 + 4^3 + 4^4 = 1 + 4 + 16 + 64 + 256 = 341`.
     */
     /* BEGIN CHANGES */
-
+    for (int i = 0; i <= n; i++){
+        int power = 1;
+        for (int j = 0; j < i; j++){
+            power *= n;
+        }
+        result += power;
+    }
     /* END CHANGES */
     return result;
 }
