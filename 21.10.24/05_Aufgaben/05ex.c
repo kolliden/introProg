@@ -80,8 +80,17 @@ zu vier direkte Nachbarn - die Diagonalen zählen nicht.
 Funktionen, um die Farbe eines Pixels auf der Canvas zu bestimmen, sind im Headerfile der Canvas dokumentiert.
 */
 
+Canvas fill_neighbour(Canvas c, int x, int y){
+    if(is_valid_coord(c, x, y) && pixel_is_white(c, x, y)){
+        bucket_fill(c, x, y);
+    }
+    return c;
+}
+
 Canvas bucket_fill(Canvas c, int x, int y) {
-    c = canvas_set_black(c, x, y);
+    if(!pixel_is_black(c, x, y)){
+        c = canvas_set_black(c, x, y);
+    }
 
     //If neighbours are white fill them balck
     if(is_valid_coord(c, x + 1, y) && pixel_is_white(c, x + 1, y)){ // Right
