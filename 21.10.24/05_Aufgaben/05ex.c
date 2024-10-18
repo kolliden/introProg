@@ -91,10 +91,23 @@ Canvas bucket_fill(Canvas c, int x, int y) {
     if(!pixel_is_black(c, x, y)){
         c = canvas_set_black(c, x, y);
     }
-    fill_neighbour(c, x + 1,y);
-    fill_neighbour(c, x - 1,y);
-    fill_neighbour(c, x,    y + 1);
-    fill_neighbour(c, x,    y - 1);
+
+    //If neighbours are white fill them balck
+    if(is_valid_coord(c, x + 1, y) && pixel_is_white(c, x + 1, y)){ // Right
+        bucket_fill(c, x + 1, y);
+    }
+
+    if (is_valid_coord(c, x - 1, y) && pixel_is_white(c, x - 1, y)){ // Left
+        bucket_fill(c, x - 1, y);
+    }
+
+    if (is_valid_coord(c, x, y + 1) && pixel_is_white(c, x, y + 1)){ // Up
+        bucket_fill(c, x, y + 1);
+    }
+
+    if (is_valid_coord(c, x, y - 1) && pixel_is_white(c, x, y - 1)){ // Down
+        bucket_fill(c, x, y - 1);
+    }
 
     return c;
 }
