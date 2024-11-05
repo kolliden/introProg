@@ -8,6 +8,8 @@ clang -std=c11 -g -Wall -Werror 01ex_test.c -o 01ex_test.o -lm && ./01ex_test.o
 
 Wir empfehlen, mit möglichst streng eingestelltem valgrind zu testen, denn so testen wir auch auf dem Server:
 clang -std=c11 -g -Wall -Werror 01ex_test.c -o 01ex_test.o -lm && valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./01ex_test.o
+MacOS:
+clang -std=c11 -g -Wall -Werror 01ex_test.c -o 01ex_test.o -lm && leaks -atExit -- ./01ex_test.o
 */
 
 #include "array_visualizer.h"
@@ -23,18 +25,25 @@ Nutzen Sie die `visualizer_append_array` Funktion, um die Tests zum durchlaufen 
 Tipp 1: Die erste Zeile im erzeugten Bild stellt das Eingabearray dar.
 Tipp 2: Jede weitere Zeile wird aus der Zeile davor durch eine einfache Modifikation gewonnen. Die Modifikation ist immer die gleiche.
 */
-void warmup(Visualizer *v, uint8_t *arr, size_t len) {
-    for (size_t i = 0; i < len; i++) {
-        uint8_t *tempArr = malloc(len * sizeof(uint8_t));
-        for (size_t j = 0; j < len; j++) {
-            if(j < i) {
+void warmup(Visualizer *v, uint8_t *arr, size_t len)
+{
+    uint8_t *tempArr = malloc(len * sizeof(uint8_t));
+    for (size_t i = 0; i < len; i++)
+    {
+        for (size_t j = 0; j < len; j++)
+        {
+            if (j < i)
+            {
                 tempArr[j] = arr[0];
-            } else {
-                tempArr[j] = arr[j-i];
+            }
+            else
+            {
+                tempArr[j] = arr[j - i];
             }
         }
         visualizer_append_array(v, tempArr);
     }
+    free(tempArr);
 }
 
 /*
@@ -43,25 +52,20 @@ Bringen Sie die Tests zum durchlaufen.
 
 Tipp: Die erste Zeile im erzeugten Bild stellt das Eingabearray dar.
 */
-void sort_it(Visualizer *v, uint8_t *arr, size_t len) {
-    //Sort the array starting by just juving the starting array. Then Sort the first 2 elements, then the first 3 and so on.
-    for (size_t i = 0; i < len; i++) { // Loop through the array
-        uint8_t *tempArr = malloc(len * sizeof(uint8_t));
-        for (size_t j = 0; j < len; j++) {
-            tempArr[j] = arr[j];
+void sort_it(Visualizer *v, uint8_t *arr, size_t len)
+{
+    visualizer_append_array(v, arr); // Append the array to the visualizer
+    for (size_t i = 1; i < len; i++)
+    { // Loop through the array
+        //Using insertion sort
+        uint8_t key = arr[i]; // Get the key
+        int j = i - 1;     // Get the index of the previous element
+        while (j >= 0 && arr[j] > key)
+        { // Loop through the array until the key is greater than the previous element
+            arr[j + 1] = arr[j]; // Move the previous element to the next index
+            j--;                 // Decrement the index
         }
-
-        for (size_t j = 0; j < i; j++) { // Loop through the array to sort the first i elements
-            for (size_t k = 0; k < i; k++) { // Sort using bubble sort
-                if (tempArr[k] > tempArr[k + 1]) { // Swap the elements if they are in the wrong order
-                    uint8_t temp = tempArr[k];
-                    tempArr[k] = tempArr[k + 1];
-                    tempArr[k + 1] = temp;
-                }
-            }
-        }
-
-        visualizer_append_array(v, tempArr); // Append the array to the visualizer
-        free(tempArr);
+        arr[j + 1] = key; // Insert the key in the correct position
+        visualizer_append_array(v, arr); // Append the array to the visualizer
     }
 }
