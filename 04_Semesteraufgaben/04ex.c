@@ -48,6 +48,13 @@ Implementieren Sie die Funktion `find_node`, die den ersten Knoten in der Liste 
 wo `data` gleich x ist. Falls kein solcher Knoten existiert, geben Sie NULL zurück.
 */
 Node *find_node(DoublyLinkedList *list, int x) {
+    Node *current = list->head;
+    while (current != NULL){
+        if(current->data == x){
+            return current;
+        }
+        current = current->next;
+    }
     return NULL;
 }
 
@@ -60,7 +67,26 @@ und den Speicher des entfernten Knotens freizugeben. Aktualisieren Sie auch die 
 Geben Sie zurück, ob ein Knoten erfolgreich entfernt wurde.
 */
 bool remove_node(DoublyLinkedList *list, int x) {
-    return false;
+    Node *node = find_node(list, x);
+    if(!node) return false;
+
+    if (node->prev != NULL) {
+        node->prev->next = node->next;
+    } else {
+        list->head = node->next;
+    }
+
+    if (node->next != NULL) {
+        node->next->prev = node->prev;
+    } else {
+        list->tail = node->prev;
+    }
+
+    list->size--;
+
+    free(node);
+
+    return true;
 }
 
 /*
@@ -72,5 +98,10 @@ aus der Liste entfernt. Geben Sie zurück, wie viele Knoten entfernt wurden.
 Hinweis: Verwenden Sie dabei die Funktionen `find_node` und `remove_node`.
 */
 int remove_all(DoublyLinkedList *list, int x) {
-    return -1;
+    if(!list)return -1;
+    int count = 0;
+    while(remove_node(list, x)){
+        count++;
+    }
+    return count;
 }
