@@ -158,7 +158,7 @@ int sum_least_common_multiples_with_8(int n) {
     'n := 3' der Wert '8 + 8 + 24 = 40'
     */
     /* BEGIN CHANGES */
-    for (int i = 0; i <= n; i++) {
+    for (int i = 1; i <= n; i++) {
         result += least_common_multiple_with_8(i);
     }
     /* END CHANGES */
