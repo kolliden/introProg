@@ -31,5 +31,16 @@ Wenn Sie diese Funktion mehr als 1 + log2(n) (aufgerundet) mal aufrufen, stürzt
 fehlerhaft ab.
 */
 size_t zero_one_sphinx(Sphinx *s, size_t n) {
-    return 0;
+    size_t left = 0;
+    size_t right = n;
+    size_t mid = 0;
+    while (left < right) {
+        mid = left + (right - left) / 2;
+        if (sphinx_ask(s, mid) == 0) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    return left;
 }
